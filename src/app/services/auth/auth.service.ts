@@ -1,45 +1,23 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { UserstorageService } from './storage/userstorage.service';
+import { Observable } from 'rxjs';
+import { LoginResponse } from '../../models/login.model';
 
-const BASIC_URL = "http://localhost:8080/";
-
-
+const BASIC_URL = 'http://localhost:8083/api/v1/auth';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class AuthService {
+  constructor(private http: HttpClient) {}
 
-  constructor( private http: HttpClient,
-    private userStorageService: UserstorageService) { }
-
-  register(signupRequest:any): Observable<any> {
-    return this.http.post(BASIC_URL + "sign-up", signupRequest)
-
+  register(signupRequest: any): Observable<any> {
+    //signup interface/dto?
+    return this.http.post(BASIC_URL + '/sign-up', signupRequest);
   }
 
-  login(username: string, password:string): any {
-    const headers=new HttpHeaders().set('Content-Type', 'application/json');
-    const body= {username, password};
-
-    return this.http.post(BASIC_URL + 'authenticate', body, {headers, observe: 'response'}).pipe(
-      map((res) =>{
-        const token=res.headers.get('authorization').substring(7); //get token without the starting string "bearer"
-        const user=res.body;
-        if(token && user){
-          this.userStorageService.saveToken(token);
-          this.userStorageService.saveUser(user);
-          return true;
-
-
-        }
-        return false;  //if token & user dont exist return false
-      })
-    )
-
+  login(email: string, password: string): Observable<LoginResponse> {
+    const body = { email, password };
+    return this.http.post<LoginResponse>(BASIC_URL + '/login', body);
   }
-
-
 }
-   

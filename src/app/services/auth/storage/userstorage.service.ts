@@ -1,85 +1,50 @@
 import { Injectable } from '@angular/core';
 
-const TOKEN = 'ecom-token';
-const USER = 'ecom-user';
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserstorageService {
-  static getToken: null;
-  
+  constructor() {}
 
-  constructor() { }
+  // todo wat do readonly mean?
+  private readonly TOKEN = 'ecom-token';
+  private readonly USER = 'ecom-user';
 
-  public saveToken(token: string):void{  //accept a token of type string
-    window.localStorage.removeItem(TOKEN); //remove the existing token if there is in local storage
-    window.localStorage.setItem(TOKEN, token);
+  saveToken(token: string | null): void {
+    localStorage.setItem(this.TOKEN, token);
   }
 
-  public saveUser(user): void{
-    window.localStorage.removeItem(USER); //remove existing user if they exist
-    window.localStorage.setItem(USER,JSON.stringify(user));  //convert to a string rep that can easily be stored/transmitted over a network
+  saveUser(user: any): void {
+    localStorage.setItem(this.USER, JSON.stringify(user));
   }
 
-   getToken(): string{
-    return localStorage.getItem(TOKEN);  //method to get token from local storage and return as string
-  } 
-
-  //method to get the user
-  static getUser(): any{
-    return JSON.parse(localStorage.getItem(USER));
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN);
   }
 
-  //method to get the user id
-  static getUserId(): string{
-    const user = this.getUser();
-    if(user==null){
-      return '';
-    }
-    return user.userId;
+  getUser(): any | null {
+    const user = localStorage.getItem(this.USER);
+    return user ? JSON.parse(user) : null;
   }
 
-
-  //method to get the user role
-  static getUserRole(): string{
-    const user = this.getUser();
-    if(user==null){
-      return '';
-    }
-    return user.role;
+  getUserId(): number | null {
+    return this.getUser()?.userId ?? null; //optional chaining & nullish coalescing
   }
 
-
-//check if logged in user is admin 
-  static isAdminLoggedIn(): boolean {
-    if(this.getToken === null){
-      return false;
-    }
-    const role : string = this.getUserRole();
-    return role == 'ADMIN';
+  getUserRole(): string | null {
+    return this.getUser()?.role ?? null;
   }
 
-
-//check if logged in user is customer
-static isCustomerLoggedIn(): boolean {
-  if(this.getToken === null){
-    return false;
+  isAdminLoggedIn(): boolean {
+    return this.getUserRole() === 'ADMIN';
   }
-  const role : string = this.getUserRole();
-  return role == 'CUSTOMER';
-}
 
-//signout method
+  isCustomerLoggedIn(): boolean {
+    return this.getUserRole() === 'CUSTOMER';
+  }
 
-static signOut(): void{
-  window.localStorage.removeItem(TOKEN);
-  window.localStorage.removeItem(USER);
-
-}
-
-
-
-
+  signOut(): void {
+    localStorage.removeItem(this.TOKEN);
+    localStorage.removeItem(this.USER);
+  }
 }

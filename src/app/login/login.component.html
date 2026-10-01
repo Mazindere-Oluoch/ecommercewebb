@@ -1,7 +1,9 @@
 <div class="container">
     <div class="welcome-message">
-    <h1><span>ShopSasa!</span> <p></p>shop at the comfort <p></p>of your home</h1>
-  </div>
+        <h1><span>ShopSasa!</span>
+            <p></p>shop at the comfort <p></p>of your home
+        </h1>
+    </div>
     <mat-card>
         <mat-card-title>Login</mat-card-title>
         <mat-card-content>
@@ -18,25 +20,27 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput  type="{{ hidePassword ? 'password' : 'text' }}"formControlName="password" placeholder="Password" required>
+                    <input matInput type="{{ hidePassword ? 'password' : 'text' }}" formControlName="password"
+                        placeholder="Password" required>
 
                     <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
                         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility' }} </mat-icon>
-                    </button> 
+                    </button>
 
                     <mat-error *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
                         Please enter a valid password
                     </mat-error>
                 </mat-form-field>
 
-                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid"  
-                (click)="onSubmit()">Login</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid"
+                    (click)="onSubmit()">Login</button>
             </form>
 
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-button color="warn" routerLink="/signup">Don't have an account?  <span style="color: blue;"> Sign up here!</span> </button>
+            <button mat-button color="warn" routerLink="/signup">Don't have an account? <span style="color: blue;"> Sign
+                    up here!</span> </button>
         </mat-card-actions>
     </mat-card>
 </div>
