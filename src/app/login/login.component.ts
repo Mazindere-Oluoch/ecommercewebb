@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
-import { UserstorageService } from '../services/auth/storage/userstorage.service';
+import { UserStorageService } from '../services/auth/storage/userstorage.service';
 
 @Component({
   selector: 'app-login',
@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private userStorageService: UserstorageService,
+    private userStorageService: UserStorageService,
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { //todo check this form validators
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required]],
       password: [null, [Validators.required]],

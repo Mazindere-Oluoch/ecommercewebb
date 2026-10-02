@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class UserstorageService {
+export class UserStorageService {
   constructor() {}
 
-  // todo wat do readonly mean?
   private readonly TOKEN = 'ecom-token';
   private readonly USER = 'ecom-user';
 
