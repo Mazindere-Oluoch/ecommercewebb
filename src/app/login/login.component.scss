@@ -1,110 +1,103 @@
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh;
-    background-color: wheat;
-    
-    
-    
+.container { //todo check this @media responsiveness
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  background-color: wheat;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Adjust this value as needed */
+}
+
+.welcome-message {
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  text-align: left;
+  padding: 20px;
+  max-width: 500px;
+  background-color: transparent;
+  box-shadow: none;
+  order: 1;
+  flex-basis: calc(50% - 20px); /* Adjust the spacing between elements */
+  margin-top: -190px;
+}
+
+.welcome-message h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.welcome-message h1 span {
+  color: #ff6600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.welcome-message h1 span:hover {
+  color: #cc4400; /* Darker color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+  cursor: pointer;
+}
+
+mat-card {
+  max-width: 500px;
+  width: 50%;
+  padding: 10px;
+  order: 2;
+
+  @media screen and (max-width: 500px) {
+    max-width: 50%;
   }
-  
-  .content-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px; /* Adjust this value as needed */
-  }
-  
-  .welcome-message {
-    font-family: 'Montserrat', sans-serif;
-    color: #333;
-    text-align: left;
-    padding: 20px;
-    max-width: 500px;
-    background-color: transparent;
-    box-shadow: none;
-    order: 1;
-    flex-basis: calc(50% - 20px); /* Adjust the spacing between elements */
-    margin-top: -190px;
-  }
-  
-  .welcome-message h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .welcome-message h1 span {
-    color: #ff6600;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  mat-card-title {
+    font-size: 20px;
   }
 
-  .welcome-message h1 span:hover {
-    color: #cc4400; /* Darker color */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
-    cursor: pointer;
-  }
-  
-  mat-card{
-    max-width: 500px;    
-    width: 100%;    
-    padding:10px;    
-    order: 2;
-    
-    @media screen and (max-width:500px){    
-    max-width: 90%;
-    
-    }    
-    }
-    
-    mat-card-title {    
-    text-align: center;    
-    font-size: 24px;    
-    margin-bottom: 20px;
-    
-    }
-    
-    form{    
-    display: flex;    
-    flex-direction: column;    
-    align-items: center;    
-    }
-    
-    mat-form-field{    
-    width:100%;    
-    margin-bottom: 20px;    
-    }
-    
-    button{    
-    width: 100%;    
-    }
-    
-    @media screen and (max-width:500px){
-    
-    mat-card-title{    
-    font-size: 20px;
-    
-    }
-    
-    mat-form-field{    
+  mat-form-field {
     margin-bottom: 10px;
-    
-    }
-    
-    }
-  @media screen and (max-width: 768px) {
-    .content-wrapper {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .welcome-message,
-    mat-card {
-      flex-basis: 100%;
-      max-width: 100%;
-    }
   }
+}
+@media screen and (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .welcome-message,
+  mat-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
