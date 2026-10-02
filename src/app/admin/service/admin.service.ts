@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { UserstorageService } from 'src/app/services/auth/storage/userstorage.service';
+import { UserStorageService } from '../../services/auth/storage/userstorage.service';
 
 const BASIC_URL = "http://localhost:8080"; 
 
@@ -11,7 +11,7 @@ const BASIC_URL = "http://localhost:8080";
 export class AdminService {  
 
   constructor(private http: HttpClient,
-    private userStorageService: UserstorageService) { }   //injecting the HTTP client
+    private userStorageService: UserStorageService) { }   //injecting the HTTP client - really? 
 
   addCategory(categoryDto:any): Observable<any>{
     return this.http.post(BASIC_URL + '/api/admin/categories',  categoryDto,{
