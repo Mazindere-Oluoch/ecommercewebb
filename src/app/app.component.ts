@@ -1,33 +1,32 @@
 import { Component } from '@angular/core';
-import { UserstorageService } from './services/auth/storage/userstorage.service';
+import { UserStorageService } from './services/auth/storage/userstorage.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'ecommerceweb';
 
-  isCustomerLoggedIn : boolean = UserstorageService.isCustomerLoggedIn();
-  isAdminLoggedIn : boolean = UserstorageService.isAdminLoggedIn();
+  isCustomerLoggedIn: boolean = this.userStorageService.isCustomerLoggedIn();
+  isAdminLoggedIn: boolean = this.userStorageService.isAdminLoggedIn();
 
-  constructor(private router : Router){ }
+  constructor(
+    private router: Router,
+    private userStorageService: UserStorageService,
+  ) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe(event =>{
-      this.isCustomerLoggedIn = UserstorageService.isCustomerLoggedIn();
-      this.isAdminLoggedIn = UserstorageService.isAdminLoggedIn();
-
-      
-    })
+    this.router.events.subscribe((event) => {
+      this.isCustomerLoggedIn = this.userStorageService.isCustomerLoggedIn();
+      this.isAdminLoggedIn = this.userStorageService.isAdminLoggedIn();
+    });
   }
 
-  logout(){
-    UserstorageService.signOut();
+  logout() {
+    this.userStorageService.signOut();
     this.router.navigateByUrl('login');
   }
-
 }
-

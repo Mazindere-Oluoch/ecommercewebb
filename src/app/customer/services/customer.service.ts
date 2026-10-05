@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserstorageService } from 'src/app/services/auth/storage/userstorage.service';
+import { UserStorageService } from '../../services/auth/storage/userstorage.service';
 
 const BASIC_URL = "http://localhost:8080";
 
@@ -12,13 +12,13 @@ export class CustomerService {
   
 
   constructor(private http: HttpClient,
-    private userStorageService: UserstorageService
+    private userStorageService: UserStorageService
     ) { }
 
   getAllProducts():  Observable<any>{
     return this.http.get(BASIC_URL + '/api/customer/products',{
       headers: this.createAuthorizationHeader(),
-    })
+    }) //todo fix all these URLs '' / ``?
   }
 
 
@@ -32,7 +32,7 @@ export class CustomerService {
   addToCart(productId:any): Observable<any>{
     const cartDto = {
       productId : productId,
-      userId : UserstorageService.getUserId()
+      userId : this.userStorageService.getUserId()
     }
     return this.http.post(BASIC_URL + '/api/customer/cart',cartDto,{
       headers: this.createAuthorizationHeader(),
@@ -42,7 +42,7 @@ export class CustomerService {
   increaseProductQuantity(productId:any):  Observable<any>{
     const cartDto = {
       productId : productId,
-      userId : UserstorageService.getUserId()
+      userId : this.userStorageService.getUserId()
     }
     return this.http.post(BASIC_URL + '/api/customer/addition',cartDto,{
       headers: this.createAuthorizationHeader(),
@@ -53,7 +53,7 @@ export class CustomerService {
   decreaseProductQuantity(productId:any):  Observable<any>{
     const cartDto = {
       productId : productId,
-      userId : UserstorageService.getUserId()
+      userId : this.userStorageService.getUserId()
     }
     return this.http.post(BASIC_URL + '/api/customer/deduction',cartDto,{
       headers: this.createAuthorizationHeader(),
@@ -62,21 +62,21 @@ export class CustomerService {
 
 
   getCartByUserId(): Observable<any>{
-   const userId = UserstorageService.getUserId()
+   const userId = this.userStorageService.getUserId()
     return this.http.get(BASIC_URL + `/api/customer/cart/${userId}`,{
       headers: this.createAuthorizationHeader(),
     })
   } 
 
   applyCoupon(code: any):  Observable<any>{
-    const userId = UserstorageService.getUserId()
+    const userId = this.userStorageService.getUserId()
      return this.http.get(BASIC_URL + `/api/customer/coupon/${userId}/${code}`,{
        headers: this.createAuthorizationHeader(),
      })
    }
 
    placeOrder(orderDto: any):  Observable<any>{
-    orderDto.userId = UserstorageService.getUserId()
+    orderDto.userId = this.userStorageService.getUserId()
      return this.http.post(BASIC_URL + '/api/customer/placeOrder',orderDto,{
        headers: this.createAuthorizationHeader(),
      })
@@ -85,7 +85,7 @@ export class CustomerService {
   
 
    getOrdersByUserId():  Observable<any>{
-    const userId = UserstorageService.getUserId()
+    const userId = this.userStorageService.getUserId()
      return this.http.get(BASIC_URL + `/api/customer/myOrders/${userId}`,{
        headers: this.createAuthorizationHeader(),
      })
