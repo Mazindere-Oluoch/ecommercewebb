@@ -11,10 +11,8 @@ import { UserStorageService } from '../services/auth/storage/userstorage.service
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  //get user's form values, call authService, save login, navigate
-
   loginForm: FormGroup;
-  hidePassword = true; // by default the password should be hidden
+  hidePassword = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +23,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //todo check this form validators
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(4)]],
@@ -42,6 +39,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
+        this.snackBar.open('Log In Successful!', '', {
+          duration: 2000,
+          verticalPosition: 'bottom'
+        });
+
         //next runs when observable produces a value
         this.userStorageService.saveToken(response.token);
         this.userStorageService.saveUser(response);

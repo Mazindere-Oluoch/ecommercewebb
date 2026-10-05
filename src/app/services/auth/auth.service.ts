@@ -1,19 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginResponse } from '../../models/login.model';
+import { LoginResponse, SignUpResponse, SignUpRequest } from '../../models/auth.model';
 
 const BASIC_URL = 'http://localhost:8083/api/v1/auth';
 @Injectable({
   providedIn: 'root',
 })
-
-export class AuthService {
+export class AuthService { //todo create an interceptor
   constructor(private http: HttpClient) {}
 
-  register(signupRequest: any): Observable<any> {
-    //signup interface/dto?
-    return this.http.post(BASIC_URL + '/sign-up', signupRequest);
+  register(signupRequest: SignUpRequest): Observable<SignUpResponse> {
+    return this.http.post<SignUpResponse>(BASIC_URL + '/sign-up', signupRequest);
   }
 
   login(email: string, password: string): Observable<LoginResponse> {

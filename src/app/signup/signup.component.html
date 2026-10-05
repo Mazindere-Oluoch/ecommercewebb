@@ -6,36 +6,26 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
-                    <input type="text" matInput formControlName="name" placeholder="min 4 characters" required>
-
-                    <!-- @if (signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched) {
+                    <input type="text" matInput formControlName="name" placeholder="min 4 characters" id="name" required>
                     <mat-error>Please enter a valid name</mat-error>
-                    } -->
-
                 </mat-form-field>
 
 
                 <mat-form-field appearance="outline">
                     <mat-label>E-mail</mat-label>
-                    <input matInput formControlName="email" placeholder="Email" required>
-
-                    <!-- @if (signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched) {
-                    <mat-error>Please enter a valid Email</mat-error>
-                    } -->
+                    <input matInput formControlName="email" placeholder="Email" id="email" required>                   
+                    <mat-error>Please enter a valid Email</mat-error>                    
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
-                        placeholder="Password min 4 characters" required>
+                        placeholder="Password min 4 characters" id="password" required>
 
                     <button mat-icon-button matSuffix (click)="togglePasswordVisiblity()">
                         <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
-
-                    <!-- @if (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched) {
                     <mat-error>Please enter a valid password</mat-error>
-                    } -->
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -45,11 +35,8 @@
 
                     <button mat-icon-button matSuffix (click)="togglePasswordVisiblity()">
                         <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-                    </button>
-
-                    <!-- @if (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched) {
-                    <mat-error>Please enter a valid password</mat-error>
-                    } -->
+                    </button>                
+                    <mat-error>Please enter a valid password</mat-error>                    
                 </mat-form-field>
 
                 <button mat-raised-button color="primary" type="submit" [disabled]="signUpForm.invalid">Sign Up</button>

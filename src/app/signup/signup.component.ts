@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
+import { SignUpRequest } from '../models/auth.model';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,7 @@ export class SignupComponent {
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar, //will show messages to the user
+    private snackBar: MatSnackBar,
     private authService: AuthService,
     private router: Router,
   ) {}
@@ -42,22 +43,30 @@ export class SignupComponent {
     const confirmPassword = this.signUpForm.get('confirmPassword')?.value;
 
     if (password !== confirmPassword) {
-      this.snackBar.open('Passwords do not match.', 'close', {
+      this.snackBar.open('Passwords do not match.', 'Close', {
         duration: 3000,
-        panelClass: 'error-snackbar',
+        panelClass: 'error-snackbar', //CSS
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
       });
       return;
     }
 
-    this.authService.register(this.signUpForm.value).subscribe({
+    const signUpRequest: SignUpRequest = {
+      name: this.signUpForm.get('name')?.value,
+      email: this.signUpForm.get('email')?.value,
+      password: this.signUpForm.get('password')?.value,
+    };
+
+    this.authService.register(signUpRequest).subscribe({
       next: (response) => {
-        this.snackBar.open('Sign up successful!', 'Close', { duration: 4000 });
+        this.snackBar.open('Sign Up Successful!', 'Close', { duration: 3000 });
         void this.router.navigateByUrl('/login');
       },
 
       error: (error) => {
-        this.snackBar.open('Sign up failed. Please try again.', 'Close', {
-          duration: 5000,
+        this.snackBar.open('Sign Up failed. Please try again.', 'Close', {
+          duration: 3000,
           panelClass: 'error-snackbar',
         });
       },
