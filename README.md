@@ -43,9 +43,9 @@ landing page - show marketplace
 
 ## Admin Access (Role-Based Authorization - ADMIN)
 - Admins manage store operations through an isolated Admin Dashboard `(/admin):`
-**Catalog Management:** Upload/edit/delete Category and Product items (including stock counts and images).
-**Order Management:** View all incoming customer orders, update delivery statuses (PENDING $\rightarrow$ SHIPPED $\rightarrow$ DELIVERED), and process returns/cancels.
-**Promotions:** Create and manage Coupon discounts.
+- **Catalog Management:** Upload/edit/delete Category and Product items (including stock counts and images).
+- **Order Management:** View all incoming customer orders, update delivery statuses (PENDING $\rightarrow$ SHIPPED $\rightarrow$ DELIVERED), and process returns/cancels.
+- **Promotions:** Create and manage Coupon discounts.
 
 # API Security Boundaries (SecurityConfig)
 - Translating this flow into Spring Security rules:
