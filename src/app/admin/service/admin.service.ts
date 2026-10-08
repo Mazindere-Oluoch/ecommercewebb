@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { UserStorageService } from '../../services/auth/storage/userstorage.service';
+import { UserStorageService } from '../../services/storage/userstorage.service';
 
 const BASIC_URL = "http://localhost:8080"; 
 
@@ -11,24 +11,9 @@ const BASIC_URL = "http://localhost:8080";
 export class AdminService {  
 
   constructor(private http: HttpClient,
-    private userStorageService: UserStorageService) { }   //injecting the HTTP client - really? 
+    private userStorageService: UserStorageService) { }   
 
-  addCategory(categoryDto:any): Observable<any>{
-    return this.http.post(BASIC_URL + '/api/admin/categories',  categoryDto,{
-      headers: this.createAuthorizationHeader(),
-    })
-  } 
-
-  getAllCategories(): Observable<any> {
-    return this.http.get(BASIC_URL + '/api/admin/categories', {
-      headers: this.createAuthorizationHeader(),
-    }).pipe(
-      catchError((error: any) => {
-        console.error('Error fetching categories:', error);
-        return throwError('Something went wrong while fetching categories. Please try again later.');
-      })
-    );
-  }
+ 
   
 
   //API to post the product

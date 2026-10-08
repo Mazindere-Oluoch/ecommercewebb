@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from '../../services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserStorageService } from '../../../services/auth/storage/userstorage.service';
+import { UserStorageService } from '../../../services/storage/userstorage.service';
 
 @Component({
   selector: 'app-review-ordered-product',

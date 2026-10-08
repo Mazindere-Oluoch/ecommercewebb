@@ -31,19 +31,19 @@ export class PostProductComponent implements OnInit {
       description: [null, [Validators.required]],
     });
 
-    this.getAllCategories();  //backend API to call all categories and show in the dropdown
+    // this.getAllCategories();  //backend API to call all categories and show in the dropdown
   }
 
-  getAllCategories() {
-    this.adminService.getAllCategories().subscribe(
-      (res) => {
-        this.listOfCategories = res; // Assuming that the response directly provides an array of categories
-      },
-      //(error) => {
-     //   console.error('Error fetching categories:', error); // Log any errors to the console
-    //  }
-    );
-  }
+  // getAllCategories() {
+  //   this.adminService.getAllCategories().subscribe(
+  //     (res) => {
+  //       this.listOfCategories = res; // Assuming that the response directly provides an array of categories
+  //     },
+  //     //(error) => {
+  //    //   console.error('Error fetching categories:', error); // Log any errors to the console
+  //   //  }
+  //   );
+  // }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];  //calling the first image

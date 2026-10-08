@@ -7,7 +7,7 @@ const BASIC_URL = 'http://localhost:8083/api/v1/auth';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService { //todo create an interceptor
+export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(signupRequest: SignUpRequest): Observable<SignUpResponse> {
