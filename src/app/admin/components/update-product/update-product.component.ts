@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminService } from '../../service/admin.service';
+import { CategoryService } from '../../../admin/service/category.service';
 
 @Component({
   selector: 'app-update-product',
@@ -27,7 +27,7 @@ export class UpdateProductComponent {
     private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
-    private adminService: AdminService,
+    private categoryService: CategoryService,
     private activatedroute:ActivatedRoute,
   ) {}
 
@@ -39,23 +39,23 @@ export class UpdateProductComponent {
       description: [null, [Validators.required]],
     });
 
-    this.getAllCategories();
-    this.getProductbyId(); 
+    // this.getAllCategories();
+    // this.getProductbyId(); 
   }
 
-  getAllCategories() { 
-    this.adminService.getAllCategories().subscribe(
-      res => {
-        this.listOfCategories = res; // Assuming that the response directly provides an array of categories
-      })
-    }
+  // getAllCategories() { 
+  //   this.categoryService.getAllCategories
+  //     res => {
+  //       this.listOfCategories = res; // Assuming that the response directly provides an array of categories
+  //     })
+  //   }
 
-    getProductbyId(){
-      this.adminService.getProductById(this.productId).subscribe(res =>{
-        this.productForm.patchValue(res);
-        this.existingImage='data:image/jpeg;base64,' + res.byteImg;
-      })
-    }
+  //   getProductbyId(){
+  //     this.categoryService.getProductById(this.productId).subscribe(res =>{
+  //       this.productForm.patchValue(res);
+  //       this.existingImage='data:image/jpeg;base64,' + res.byteImg;
+  //     })
+  //   }
    
 
   onFileSelected(event: any) {
@@ -89,26 +89,26 @@ export class UpdateProductComponent {
       formData.append('description', this.productForm.get('description').value);
       formData.append('price', this.productForm.get('price').value);
 
-      this.adminService.updateProduct(this.productId,formData).subscribe(
-        (res) => {
-          if (res.id != null) {
-            this.snackBar.open('Product updated successfully!', 'Close', {
-              duration: 5000
-            });
-            this.router.navigateByUrl('/admin/dashboard');
-          } else {
-            this.snackBar.open(res.message, 'ERROR', {
-              duration: 5000
-            });
-          }
-        },
-        (error) => {
-          console.error('Error adding product:', error); // Log any errors to the console
-          this.snackBar.open('Error adding product!', 'ERROR', {
-            duration: 5000
-          });
-        }
-      );
+      // this.adminService.updateProduct(this.productId,formData).subscribe(
+      //   (res) => {
+      //     if (res.id != null) {
+      //       this.snackBar.open('Product updated successfully!', 'Close', {
+      //         duration: 5000
+      //       });
+      //       this.router.navigateByUrl('/admin/dashboard');
+      //     } else {
+      //       this.snackBar.open(res.message, 'ERROR', {
+      //         duration: 5000
+      //       });
+      //     }
+      //   },
+      //   (error) => {
+      //     console.error('Error adding product:', error); // Log any errors to the console
+      //     this.snackBar.open('Error adding product!', 'ERROR', {
+      //       duration: 5000
+      //     });
+      //   }
+      // );
     } else {
       for (const i in this.productForm.controls) {
         if (this.productForm.controls.hasOwnProperty(i)) {

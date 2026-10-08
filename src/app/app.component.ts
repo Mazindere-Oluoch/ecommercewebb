@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserStorageService } from './services/auth/storage/userstorage.service';
+import { UserStorageService } from './services/storage/userstorage.service';
 import { Router } from '@angular/router';
 
 @Component({

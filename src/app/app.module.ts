@@ -8,14 +8,12 @@ import { DemoAngularMaterailModule } from './DemoAngularMaterialModule';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    SignupComponent
-  ],
+  declarations: [AppComponent, LoginComponent, SignupComponent],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,9 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
     DemoAngularMaterailModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,  //calls the back end API's
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+
+  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
+
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
