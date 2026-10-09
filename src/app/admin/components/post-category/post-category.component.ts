@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Category, CategoryRequest } from '../../../models/admin.model';
 import { CategoryService } from '../../../admin/service/category.service';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ApiError } from '../../../interceptors/error.interceptor';
 
 @Component({
   selector: 'app-post-category',
@@ -63,10 +64,9 @@ export class PostCategoryComponent implements OnInit {
         this.categories = categories;
         this.loading = false;
       },
-      error: (error) => {
+      error: (err: ApiError) => {
         this.loading = false;
-
-        this.snackBar.open(error.error?.message || 'Failed to load categories', 'Close', {
+        this.snackBar.open(err.msg || 'Failed to load categories', 'Close', {
           duration: 4000,
         });
       },
@@ -81,8 +81,14 @@ export class PostCategoryComponent implements OnInit {
       categoryDescription: '',
     });
 
-    this.dialog.open(this.categoryDialog, {
+    const dialogRef = this.dialog.open(this.categoryDialog, {
+      //close the modal even by clicking outside
       width: '500px',
+      maxWidth: 'calc(100vw - 32px)',
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.tabs.selectedIndex = 0;
     });
   }
 
@@ -129,8 +135,8 @@ export class PostCategoryComponent implements OnInit {
         this.snackBar.open('Category added successfully', 'Close', { duration: 3000 });
       },
 
-      error: (error) => {
-        this.snackBar.open(error.error?.message || 'Failed to add category', 'Close', {
+      error: (err: ApiError) => {
+        this.snackBar.open(err.msg || 'Failed to add category', 'Close', {
           duration: 4000,
         });
       },
@@ -145,12 +151,11 @@ export class PostCategoryComponent implements OnInit {
         );
 
         this.dialog.closeAll();
-
         this.snackBar.open('Category updated successfully', 'Close', { duration: 3000 });
       },
 
-      error: (error) => {
-        this.snackBar.open(error.error?.message || 'Failed to update category', 'Close', {
+      error: (err: ApiError) => {
+        this.snackBar.open(err.msg || 'Failed to update category', 'Close', {
           duration: 4000,
         });
       },
@@ -173,8 +178,8 @@ export class PostCategoryComponent implements OnInit {
           this.snackBar.open('Category deleted successfully', 'Close', { duration: 3000 });
         },
 
-        error: (error) => {
-          this.snackBar.open(error.error?.message || 'Failed to delete category', 'Close', {
+        error: (err: ApiError) => {
+          this.snackBar.open(err.msg || 'Failed to delete category', 'Close', {
             duration: 4000,
           });
         },
