@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AdminService } from '../../service/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +15,7 @@ couponForm!: FormGroup;
 constructor(private fb: FormBuilder,
   private router: Router,  //redirect user after coupon creation
   private snackBar : MatSnackBar, //show messages to user
-  private adminService: AdminService){}  //calls APIs
+ ){}  //calls APIs
 
   ngOnInit(){
     this.couponForm = this.fb.group({
@@ -27,27 +26,27 @@ constructor(private fb: FormBuilder,
     })
   }
     addCoupon(){      
-      if(this.couponForm.valid){
-        this.adminService.addCoupon(this.couponForm.value).subscribe((res) =>{
-          if(res.id != null) {
-            this.snackBar.open('Coupon Posted Successfully!', 'Close',{
-              duration: 5000
-            });
-            this.router.navigateByUrl('/admin/dashboard');
-          }
-          else{
-            this.snackBar.open(res.message, 'Close', {
-              duration: 5000,
-              panelClass: 'error-snackbar'
-            });
-          }
-        });
-      } else {
-        this.couponForm.markAllAsTouched();
-      }
-    }
+    //   if(this.couponForm.valid){
+    //     this.adminService.addCoupon(this.couponForm.value).subscribe((res) =>{
+    //       if(res.id != null) {
+    //         this.snackBar.open('Coupon Posted Successfully!', 'Close',{
+    //           duration: 5000
+    //         });
+    //         this.router.navigateByUrl('/admin/dashboard');
+    //       }
+    //       else{
+    //         this.snackBar.open(res.message, 'Close', {
+    //           duration: 5000,
+    //           panelClass: 'error-snackbar'
+    //         });
+    //       }
+    //     });
+    //   } else {
+    //     this.couponForm.markAllAsTouched();
+    //   }
+}
     
-    
+
   }
 
 

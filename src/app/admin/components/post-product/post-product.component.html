@@ -1,75 +1,238 @@
 <div class="container">
-    <h2>Add Product</h2>
 
-    <form [formGroup]="productForm" (ngSubmit)="addProduct()">
+    <h2>Products</h2>
 
-        <div class="file-upload-container">
-            <label class="file-upload-label">
-                <span>Select a file</span>
-                <input type="file" id="fileInput"  (change)="onFileSelected($event)" hidden>
-                <mat-icon>attach_file</mat-icon>
+    <mat-tab-group #tabs (selectedIndexChange)="onTabChange($event)">
 
-            </label>
+        <mat-tab label="View Products">
 
-           <!--showing the image preview-->
-           <div *ngIf="selectedFile" class="image-preview">
-            <div class="circle-image">
-                <img [src]="imagePreview" alt="Selected Image" class="preview-image">
+            <div class="tab-content">
+
+                <div class="search-bar">
+                    <mat-form-field appearance="outline" class="search-field">
+                        <mat-label>Search products</mat-label>
+                        <input matInput [(ngModel)]="search" (keyup.enter)="searchProducts()"
+                            placeholder="Enter product name" />
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" (click)="searchProducts()">
+                        <mat-icon>search</mat-icon>
+                        Search
+                    </button>
+                </div>
+
+                <p *ngIf="loading">Loading products...</p>
+
+                <p *ngIf="!loading && products.length === 0">
+                    No products found.
+                </p>
+
+                <table mat-table [dataSource]="products" class="mat-elevation-z2"
+                    *ngIf="!loading && products.length > 0">
+
+                    <ng-container matColumnDef="serialNumber">
+                        <th mat-header-cell *matHeaderCellDef>#</th>
+                        <td mat-cell *matCellDef="let product; let i = index">
+                            {{ pageIndex * pageSize + i + 1 }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="productImage">
+                        <th mat-header-cell *matHeaderCellDef>Image</th>
+                        <td mat-cell *matCellDef="let product">
+                            <img *ngIf="product.productImgUrl; else noProductImage" [src]="product.productImgUrl"
+                                [alt]="product.productName" class="product-thumbnail" />
+
+                            <ng-template #noProductImage>
+                                <div class="no-image">
+                                    <mat-icon>image</mat-icon>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="productName">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let product">
+                            {{ product.productName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef>Price</th>
+                        <td mat-cell *matCellDef="let product">
+                            {{ product.price | currency:'KES ':'symbol':'1.2-2' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef>Category</th>
+                        <td mat-cell *matCellDef="let product">
+                            {{ getCategoryName(product.category) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                        <td mat-cell *matCellDef="let product">
+                            {{ product.quantity }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let product">
+
+                            <button mat-icon-button color="primary" (click)="openEditDialog(product)" matTooltip="Edit">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <button mat-icon-button color="warn" (click)="deleteProduct(product.id)"
+                                matTooltip="Delete">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+
+                <mat-paginator *ngIf="!loading && totalElements > 0" [length]="totalElements" [pageIndex]="pageIndex"
+                    [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event)">
+                </mat-paginator>
 
             </div>
-        </div>
-        </div>
 
-        <!--
-        getting input for the category -->
-        
-            <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Select a Category</mat-label>
-            <mat-select formControlName="categoryId" name="categoryId">
-                <mat-option *ngFor="let category of listOfCategories" [value]="category.id">{{category.name}}
-                    <!--this for loop displays all categories-->
-                </mat-option>
-            </mat-select>
+        </mat-tab>
 
-            <mat-error *ngIf="productForm.get('categoryId')?.hasError('required')">This input is required!
-            </mat-error>
-        </mat-form-field>
-        
-         
-    
+        <mat-tab label="Add Product">
+        </mat-tab>
 
-        <!--getting the name of the product from the user-->
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Name</mat-label>
-            <input matInput type="text" placeholder="Name" formControlName="name"/>
+    </mat-tab-group>
 
-            <mat-error *ngIf="productForm.get('name')?.hasError('required')">This input is required!
-            </mat-error>
-        </mat-form-field>
-
-        <!--getting the price of the product from the user-->
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Price</mat-label>
-            <input matInput type="number" placeholder="Price" formControlName="price"/>
-
-            <mat-error *ngIf="productForm.get('price')?.hasError('required')">This input is required!
-            </mat-error>
-        </mat-form-field>
-
-        <!--getting description of the product from the user-->
-        <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Description</mat-label>
-            <textarea matInput placeholder="Description" formControlName="description">  
-            </textarea>
-
-            <mat-error *ngIf="productForm.get('description')?.hasError('required')">This input is required!
-            </mat-error>            
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit">Add Product</button>
-
-
-
-
-    </form>
 </div>
+
+<!-- Add/Edit product dialog -->
+<ng-template #productDialog>
+
+    <h2 mat-dialog-title>
+        {{ selectedProduct ? 'Edit Product' : 'Add Product' }}
+    </h2>
+
+    <mat-dialog-content>
+
+        <form [formGroup]="productForm">
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Product Name</mat-label>
+                <input matInput formControlName="productName" />
+
+                <mat-error *ngIf="productForm.get('productName')?.hasError('required')">
+                    Product name is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Price (KES)</mat-label>
+                <input matInput type="number" min="0.01" formControlName="price" />
+
+                <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+                    Price is required
+                </mat-error>
+
+                <mat-error *ngIf="productForm.get('price')?.hasError('min')">
+                    Price must be greater than zero
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="4" formControlName="description"></textarea>
+
+                <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+                    Description is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Category</mat-label>
+
+                <mat-select formControlName="category">
+                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.categoryName }}
+                    </mat-option>
+                </mat-select>
+
+                <mat-hint *ngIf="categoriesLoading">
+                    Loading categories...
+                </mat-hint>
+
+                <mat-error *ngIf="productForm.get('category')?.hasError('required')">
+                    Please select a category
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Quantity</mat-label>
+                <input matInput type="number" min="0" formControlName="quantity" />
+
+                <mat-error *ngIf="productForm.get('quantity')?.hasError('required')">
+                    Quantity is required
+                </mat-error>
+
+                <mat-error *ngIf="productForm.get('quantity')?.hasError('min')">
+                    Quantity cannot be negative
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Temporary image URL field; MinIO upload can replace this later -->
+            <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Product Image URL (optional)</mat-label>
+                <input matInput formControlName="productImgUrl" placeholder="https://example.com/product.jpg" />
+                <mat-hint>Image upload will be added later.</mat-hint>
+            </mat-form-field>
+
+            <div class="image-preview" *ngIf="productForm.get('productImgUrl')?.value as imageUrl">
+                <p>Image preview</p>
+                <img [src]="imageUrl" alt="Product preview" class="preview-image" />
+            </div>
+
+        </form>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close [disabled]="saving">
+            Cancel
+        </button>
+
+        <button mat-raised-button color="primary" (click)="saveProduct()" [disabled]="saving || categoriesLoading">
+            {{ saving ? 'Saving...' : (selectedProduct ? 'Update' : 'Add Product') }}
+        </button>
+    </mat-dialog-actions>
+
+</ng-template>
+
+<!-- Delete confirmation dialog -->
+<ng-template #deleteDialog>
+
+    <h2 mat-dialog-title>Delete Product</h2>
+
+    <mat-dialog-content>
+        Are you sure you want to delete this product?
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>
+            Cancel
+        </button>
+
+        <button mat-raised-button color="warn" [mat-dialog-close]="true">
+            Delete
+        </button>
+    </mat-dialog-actions>
+
+</ng-template>

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../../service/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -17,7 +16,6 @@ export class PostProductFaqComponent {
   constructor(
     private fb:FormBuilder,
     private router:Router,
-    private adminservice :AdminService,
     private snackbar:MatSnackBar,
     private activatedRoute:ActivatedRoute
   ){}
@@ -30,22 +28,23 @@ export class PostProductFaqComponent {
 
   }
 
-  postFAQ(){
-    this.adminservice.postFAQ(this.productId, this.FAQForm.value).subscribe(res =>{
-      if(res.id != null){
-        this.snackbar.open('FAQ posted successfully!','Close',{
-          duration:5000
-        });
-        this.router.navigateByUrl('/admin/dashboard');
-      } else{
-        this.snackbar.open("Something went wrong",'Close',{
-          duration: 5000,
-          panelClass: 'error-snackbar'
+  // postFAQ(){
+  //   this.adminservice.postFAQ(this.productId, this.FAQForm.value).subscribe(res =>{
+  //     if(res.id != null){
+  //       this.snackbar.open('FAQ posted successfully!','Close',{
+  //         duration:5000
+  //       });
+  //       this.router.navigateByUrl('/admin/dashboard');
+  //     } else{
+  //       this.snackbar.open("Something went wrong",'Close',{
+  //         duration: 5000,
+  //         panelClass: 'error-snackbar'
           
-        });
-      }
-    })
-  }}
+  //       });
+  //     }
+  //   })
+  // }
+}
 
     
    
