@@ -206,6 +206,7 @@ export class PostProductComponent implements OnInit {
         });
       },
       error: (err: ApiError) => {
+        //console.error("Error: ", err);
         this.saving = false;
         this.snackBar.open(err.msg || 'Failed to add product', 'Close', {
           duration: 4000,

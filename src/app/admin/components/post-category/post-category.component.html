@@ -80,7 +80,7 @@
         <form [formGroup]="categoryForm">
             <mat-form-field appearance="outline" class="form-field">
                 <mat-label>Category Name</mat-label>
-                <input matInput formControlName="categoryName">
+                <input matInput formControlName="categoryName" trim>
 
                 <mat-error *ngIf="categoryForm.get('categoryName')?.hasError('required')">
                     Category name is required

@@ -28,22 +28,22 @@ export class PostProductFaqComponent {
 
   }
 
-  // postFAQ(){
-  //   this.adminservice.postFAQ(this.productId, this.FAQForm.value).subscribe(res =>{
-  //     if(res.id != null){
-  //       this.snackbar.open('FAQ posted successfully!','Close',{
-  //         duration:5000
-  //       });
-  //       this.router.navigateByUrl('/admin/dashboard');
-  //     } else{
-  //       this.snackbar.open("Something went wrong",'Close',{
-  //         duration: 5000,
-  //         panelClass: 'error-snackbar'
+  postFAQ(){
+    // this.adminservice.postFAQ(this.productId, this.FAQForm.value).subscribe(res =>{
+    //   if(res.id != null){
+    //     this.snackbar.open('FAQ posted successfully!','Close',{
+    //       duration:5000
+    //     });
+    //     this.router.navigateByUrl('/admin/dashboard');
+    //   } else{
+    //     this.snackbar.open("Something went wrong",'Close',{
+    //       duration: 5000,
+    //       panelClass: 'error-snackbar'
           
-  //       });
-  //     }
-  //   })
-  // }
+    //     });
+    //   }
+    // })
+  }
 }
 
     
