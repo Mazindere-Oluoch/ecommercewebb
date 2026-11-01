@@ -1,4 +1,4 @@
-//registered in app.module.ts
+//registered in app.module.ts - all interceptors are registered in app.module.ts
 
 import { HttpInterceptorFn } from '@angular/common/http';
 

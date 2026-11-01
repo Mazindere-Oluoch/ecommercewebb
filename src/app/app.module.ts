@@ -10,6 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, SignupComponent],
@@ -23,7 +24,9 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     ReactiveFormsModule,
   ],
 
-  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
+  providers: [
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+  ],
 
   bootstrap: [AppComponent],
 })

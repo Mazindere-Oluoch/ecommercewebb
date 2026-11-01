@@ -79,7 +79,7 @@ landing page - show marketplace
 - Wishlist, Reviews, & Coupons: Add auxiliary customer features once the core purchase flow is working
 
 # TODO:
-- in `Category` when i click in add modal, it shld also return to the table
+
 - work in mobile responsiveness global css 
 - add error interceptor to show backend msg `{"categoryName":"Category Name is required"}`
 

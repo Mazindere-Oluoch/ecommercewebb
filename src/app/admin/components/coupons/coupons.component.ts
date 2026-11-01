@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AdminService } from '../../service/admin.service';
 
 @Component({
   selector: 'app-coupons',
@@ -10,7 +9,7 @@ export class CouponsComponent {
 
   coupons: any;
 
-  constructor(private adminService: AdminService){}
+  constructor(){}
 
   ngOnInit(){
 
@@ -19,8 +18,5 @@ export class CouponsComponent {
   }
   
 getCoupons(){
-  this.adminService.getCoupons().subscribe(res =>{
-    this.coupons = res;
-  })
 }
 }
